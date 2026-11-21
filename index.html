@@ -531,7 +531,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
 </head>
 <body>
 <div id="app"></div>
-<script id="state" type="application/json">{"updated":0,"name":"Nora"}</script>
+<script id="state" type="application/json">{"updated":0}</script>
 <script id="app-js">
 (function(){
   var $ = function(s){ return document.querySelector(s); };
@@ -570,19 +570,13 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
   if(local && local.updated > (S.updated||0)) S = local;
   ['log','focus','journal','water','mood','sleep','events'].forEach(function(k){ S[k] = S[k] || {}; });
   ['habits','goals','tx','jars'].forEach(function(k){ S[k] = S[k] || []; });
-  S.waterGoal = S.waterGoal || 8; S.sleepGoal = S.sleepGoal || 8; S.name = S.name || 'Nora';
+  S.waterGoal = S.waterGoal || 8; S.sleepGoal = S.sleepGoal || 8; S.name = S.name || '';
+  var nm = function(){ return S.name || 'bạn'; };
   if(S.budget == null) S.budget = 3000000;
   S.settings = Object.assign({skin:'keo', pal:'meo', night:'auto'}, S.settings || {});
   S.countdowns = S.countdowns || [];
   S.todos = S.todos || {};
-  if(!S.classes) S.classes = [
-    {id:'c1', day:1, room:'B2-307', name:'Phát triển bền vững', lhp:'26C3ECO50122006', start:'17:45', end:'21:10', gv:'TS. Nguyễn Tấn Khuyên', mode:'Tập trung', from:'2026-11-02', to:'2026-12-28'},
-    {id:'c2', day:5, room:'B2-212', name:'Tài chính doanh nghiệp nâng cao', lhp:'', start:'17:45', end:'21:10', gv:'Hoàng Thị Phương Anh', mode:'Tập trung', from:'2026-11-06', to:'2026-12-25'},
-    {id:'c3', day:3, room:'B2-212', name:'Tài chính doanh nghiệp nâng cao', lhp:'', start:'17:45', end:'21:10', gv:'Hoàng Thị Phương Anh', mode:'Tập trung', from:'2026-12-09', to:'2026-12-30'},
-    {id:'c4', day:4, room:'B2-108', name:'Tài chính doanh nghiệp nâng cao', lhp:'', start:'17:45', end:'21:10', gv:'Hoàng Thị Phương Anh', mode:'Tập trung', from:'2026-12-31', to:'2026-12-31'},
-    {id:'c5', day:2, room:'B1-502', name:'Kế toán quản trị', lhp:'', start:'17:45', end:'21:10', gv:'Đào Tất Thắng', mode:'Tập trung', from:'2026-11-10', to:'2026-12-29'},
-    {id:'c6', day:4, room:'B1-502', name:'Kế toán quản trị', lhp:'', start:'17:45', end:'21:10', gv:'Đào Tất Thắng', mode:'Tập trung', from:'2026-11-12', to:'2026-12-10'}
-  ];
+  if(!S.classes) S.classes = [];
   var classEdit = null, clsWeek = 0;
   if(S.vault === undefined) S.vault = null;
   S.farm = {room: (S.farm && S.farm.room) || {}};
@@ -681,7 +675,8 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
       fbDoc = FB.db.collection('users').doc(u.uid);
       setStatus('Đang đồng bộ…');
       fbDoc.get().then(function(snap){
-        var r = snap.exists ? snap.data() : null, same = lsGet(LUID) === u.uid;
+        var r = snap.exists ? snap.data() : null, prevU = lsGet(LUID), same = prevU === u.uid;
+        if(prevU && !same && !(r && r.data)){ lsSet(LS, {updated: 0}); lsSet(LUID, u.uid); lsSet(LT, null); location.reload(); return; }
         if(r && r.data && (!same || (r.updated || 0) > (S.updated || 0)) && safeReload()){ lsSet(LS, adopt(r)); lsSet(LUID, u.uid); location.reload(); return; }
         lsSet(LUID, u.uid); cloudOk = true;
         if(!r || (S.updated || 0) > (r.updated || 0)) cloudPush(); else setStatus('Đã đồng bộ');
@@ -805,14 +800,14 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     var doy = Math.floor((now - new Date(now.getFullYear(),0,0))/864e5);
     var w = S.water[t] || 0;
     var fT = S.focus[t] || {n:0,m:0}, slT = sleepMins(S.sleep[t]), moodT = moodOf(t), spentT = sum(S.tx.filter(function(x){ return x.d === t; }), 'out');
-    var say = hr >= 23 || hr < 5 ? 'Khuya rồi, mình đi ngủ thôi ' + esc(S.name) + '!'
+    var say = hr >= 23 || hr < 5 ? 'Khuya rồi, mình đi ngủ thôi ' + esc(nm()) + '!'
       : total && nd === total ? 'Tuyệt vời! Hôm nay bạn làm đủ hết rồi.'
       : hr >= 15 && w < S.waterGoal/2 ? 'Uống thêm nước nha, mới ' + w + ' cốc thôi.'
       : nd === 0 ? 'Bắt đầu với một thói quen nhỏ nhé!'
       : 'Cố lên, còn ' + (total - nd) + ' thói quen nữa thôi!';
     var h = '<header class="card plain span2"><div class="hero"><div class="txt">'
       + '<p class="date">' + DAYS[now.getDay()] + ', ' + pad(now.getDate()) + '/' + pad(now.getMonth()+1) + '/' + now.getFullYear() + '</p>'
-      + '<h1>Chào ' + esc(S.name) + '!</h1><p class="quote">' + part + ' ' + esc(SAYINGS[doy % SAYINGS.length]) + '</p></div>'
+      + '<h1>Chào ' + esc(nm()) + '!</h1><p class="quote">' + part + ' ' + esc(SAYINGS[doy % SAYINGS.length]) + '</p></div>'
       + '<div class="pal"><button class="palbtn" data-act="pet" aria-label="Xoa đầu bạn đồng hành">' + (S.settings.pal === 'meo' ? catSvg(catMood && catMood !== 'focus' ? catMood : 'calm') : animal(S.settings.pal)) + '</button>' + vTimer() + '<p class="bubble" id="bubble">' + say + '</p></div>'
       + '</div>'
       + '<div class="stats hstats" aria-label="Tóm tắt hôm nay">'
@@ -836,7 +831,8 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
       h += '</div><div class="chips"><span class="lbl">Mèo nổi giận sau</span>';
       [30,60,90].forEach(function(x){ h += '<button class="chip' + (S.settings.nag === x ? ' on' : '') + '" data-act="catNagSet" data-v="' + x + '">' + x + ' phút không học</button>'; });
       h += '</div><div class="chips"><span class="lbl">Mục tiêu học mỗi ngày</span><span class="muted">Hiện tại: ' + hm(S.settings.studyGoal) + '</span></div>'
-        + '<form class="add" id="setStudyGoal"><input type="number" id="studyGoalIn" min="0.5" max="16" step="0.25" inputmode="decimal" value="' + (Math.round(S.settings.studyGoal/60*100)/100) + '" aria-label="Mục tiêu học mỗi ngày (giờ)" placeholder="Số giờ, ví dụ 2,5"><button class="btn small" type="submit">Lưu (giờ)</button></form>';
+        + '<form class="add" id="setStudyGoal"><input type="number" id="studyGoalIn" min="0.5" max="16" step="0.25" inputmode="decimal" value="' + (Math.round(S.settings.studyGoal/60*100)/100) + '" aria-label="Mục tiêu học mỗi ngày (giờ)" placeholder="Số giờ, ví dụ 2,5"><button class="btn small" type="submit">Lưu (giờ)</button></form>'
+        + '<div class="chips"><span class="lbl">Tên của bạn</span></div><form class="add" id="setName2"><input type="text" class="nmIn" maxlength="30" value="' + esc(S.name) + '" placeholder="Tên để mèo gọi bạn" aria-label="Tên của bạn"><button class="btn small" type="submit">Lưu tên</button></form>';
       if(FB && fbUser) h += '<div class="chips"><span class="lbl">Tài khoản</span><span class="muted">' + esc(fbUser.email || '') + '</span><button class="btn small" data-act="signOut">Đăng xuất</button></div>';
       h += '<div class="jq"><label for="bkTxt">Sao lưu dữ liệu</label>'
         + '<p class="muted">Thỉnh thoảng sao chép bản sao lưu rồi cất vào Ghi chú hoặc email của bạn. Khi cần, dán lại vào ô dưới để khôi phục. Sổ tiết kiệm vẫn được mã hoá trong bản sao lưu.</p>'
@@ -863,6 +859,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
 
     var cds = upcomingCds(), tdc = classesToday();
     var h = (tdc.length ? '<section class="card pink span2"><div class="head"><h2>Lớp hôm nay</h2><a class="link" href="#lich-hoc" style="text-decoration:none">Xem lịch học</a></div><div class="cgrid">' + tdc.map(function(c){ return classCard(c, {today: true}); }).join('') + '</div></section>' : '');
+    if(!S.name) h = '<section class="card mint span2"><h2>Chào bạn mới! Mèo nên gọi bạn là gì?</h2><form class="add" id="setName"><input type="text" class="nmIn" maxlength="30" placeholder="Tên của bạn" aria-label="Tên của bạn"><button class="btn primary" type="submit">Lưu tên</button></form></section>' + h;
     h += '<section class="card peach span2 todosec">' + vTodoList(t, 'addTodo') + '</section>';
     h += '<section class="card lilac span2 cdsec"><div class="head"><h2>Đếm ngược</h2><span class="cdnavs"><button class="navbtn prev" data-act="cdNav" data-v="-1" aria-label="Xem mục trước">‹</button><button class="navbtn next" data-act="cdNav" data-v="1" aria-label="Xem mục sau">›</button></span><a class="link" href="#lich" style="text-decoration:none">Thêm ngày</a></div>'
       + (cds.length ? cdTiles(cds).replace('<div class="cds">', '<div class="cds cdrow">') : '<p class="muted">Chưa có ngày thi hay hạn nộp bài nào. Thêm ở mục Lịch nhé.</p>') + '</section>';
@@ -1208,7 +1205,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     fxBurst(rc, COIN, 12);
     fxText(rc, COIN + '+' + money(v));
   }
-  var PET = ['Hihi, nhột quá!', 'Yêu ' + esc(S.name) + ' nhiều!', 'Mình học cùng nhau nha!', 'Hôm nay bạn giỏi lắm đó!', 'Nhớ uống nước nè!', 'Cố lên, mình ở đây cổ vũ bạn!'];
+  var PET = ['Hihi, nhột quá!', 'Yêu ' + esc(nm()) + ' nhiều!', 'Mình học cùng nhau nha!', 'Hôm nay bạn giỏi lắm đó!', 'Nhớ uống nước nè!', 'Cố lên, mình ở đây cổ vũ bạn!'];
 
   /* ---------- Mèo đốc học ---------- */
   S.settings = Object.assign({cat: 'on', nag: 60, studyGoal: 120}, S.settings);
@@ -1761,7 +1758,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     var h = vHeader();
     h += tab === 'lich' ? vCal() : tab === 'chi-tieu' ? vMoney() + vVault() : tab === 'bao-cao' ? vReport() : tab === 'lich-hoc' ? vClasses() : vToday();
     if(nudge){
-      h += '<div class="nudge" role="alert"><p>Đến giờ uống nước rồi, ' + esc(S.name) + '!</p><span class="muted">Một cốc nước nhỏ giúp bạn tỉnh táo hơn khi học.</span>'
+      h += '<div class="nudge" role="alert"><p>Đến giờ uống nước rồi, ' + esc(nm()) + '!</p><span class="muted">Một cốc nước nhỏ giúp bạn tỉnh táo hơn khi học.</span>'
         + '<div class="row"><button class="btn primary" data-act="w+">Uống rồi, +1 cốc</button><button class="btn" data-act="snooze">Nhắc lại sau 10 phút</button></div></div>';
     }
     morphInto(app, '<div class="wrap">' + h + '</div>' + vFocus());
@@ -2043,6 +2040,9 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     } else if(id === 'setStudyGoal'){
       var g = Math.round(parseFloat(String($('#studyGoalIn').value).replace(',', '.'))*60); if(!g || g < 5) return;
       S.settings.studyGoal = Math.min(960, g); catMood = ''; save(); render(); catTick();
+    } else if(id === 'setName' || id === 'setName2'){
+      var nv = f.querySelector('.nmIn').value.trim().slice(0, 30); if(!nv) return;
+      S.name = nv; save(); render();
     } else if(id === 'setRate'){
       var rv = parseInt($('#rateIn').value, 10); if(!rv || rv < 1000) return;
       S.wallet.rate = Math.min(10000000, rv); save(); render();
