@@ -679,6 +679,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
         if(prevU && !same && !(r && r.data)){ lsSet(LS, {updated: 0}); lsSet(LUID, u.uid); lsSet(LT, null); location.reload(); return; }
         if(r && r.data && (!same || (r.updated || 0) > (S.updated || 0)) && safeReload()){ lsSet(LS, adopt(r)); lsSet(LUID, u.uid); location.reload(); return; }
         lsSet(LUID, u.uid); cloudOk = true;
+        if(seedHK2027()){ save(); }
         if(!r || (S.updated || 0) > (r.updated || 0)) cloudPush(); else setStatus('Đã đồng bộ');
         fbDoc.onSnapshot(function(sn){
           var d = sn.data(); if(!d || sn.metadata.hasPendingWrites || !d.data) return;
@@ -1072,18 +1073,19 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
 
   /* ---------- Chi tiêu ---------- */
   function vWallet(){
-    var m = wMins(), earned = wEarned(m), spent = wSpent(), bal = earned - spent, nx = wNext(), r = wRate();
+    var m = wMins(), wc = wClass(), earned = wEarned(m) + wc.money, spent = wSpent(), bal = earned - spent, nx = wNext(), r = wRate();
     var h = '<section class="card lemon span2 wcard"><div class="head"><h2>Ví tập trung</h2><span class="muted">Tính từ ' + dmy(S.wallet.since) + '</span></div>'
       + '<div class="wbig' + (bal < 0 ? ' neg' : '') + '">' + COIN + '<b>' + money(bal) + '</b><span>có thể tiêu</span></div>'
       + (bal < 0 ? '<p class="wwarn" role="alert">Bạn đang chi vượt ' + money(-bal) + '. Tập trung thêm ' + Math.ceil(-bal / r) + ' giờ để bù lại nhé!</p>' : '')
       + '<div class="stats stats3">'
-      + '<div class="stat mint"><b>' + money(earned) + '</b><span>đã kiếm (' + Math.floor(m/60) + ' giờ)</span></div>'
+      + '<div class="stat mint"><b>' + money(earned) + '</b><span>đã kiếm (' + Math.floor(m/60) + ' giờ tập trung' + (wc.hours ? ' + ' + wc.hours + ' giờ học' : '') + ')</span></div>'
       + '<div class="stat pink"><b>' + money(spent) + '</b><span>đã chi</span></div>'
       + '<div class="stat lilac"><b>' + hm(m) + '</b><span>tổng giờ tập trung</span></div></div>'
       + '<div class="goal" style="background:var(--white)"><div class="top"><span class="name">Lần cộng tiếp theo: +' + money(r) + '</span><span class="cnt">' + (60 - nx) + '/60 phút</span></div>'
       + '<div class="bar"><i style="width:' + Math.round((60 - nx) / 60 * 100) + '%"></i></div>'
       + '<p class="muted">Còn ' + nx + ' phút tập trung nữa. Phút lẻ được cộng dồn qua các phiên và các ngày.</p></div>'
       + '<form class="add" id="setRate"><input type="number" id="rateIn" min="1000" step="1000" inputmode="numeric" value="' + r + '" aria-label="Số tiền mỗi giờ (đồng)"><button class="btn small" type="submit">Đổi mức tiền mỗi giờ</button></form>'
+      + '<p class="muted">Giờ học trên lớp cũng được cộng ' + money(r) + '/giờ: tính theo tổng giờ học cả ngày (làm tròn xuống giờ chẵn), cộng khi buổi học cuối của ngày kết thúc.</p>'
       + '<p class="muted">Mọi khoản chi đều trừ vào ví. Khoản nhận chỉ để theo dõi, không cộng vào ví.</p></section>';
     return h;
   }
@@ -1156,7 +1158,19 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
   function wMins(){ var n = 0, s0 = S.wallet.since; Object.keys(S.focus).forEach(function(d){ if(d >= s0) n += (S.focus[d].m || 0); }); return n; }
   function wEarned(m){ return Math.floor((m == null ? wMins() : m)/60)*wRate(); }
   function wSpent(){ var s0 = S.wallet.since; return sum(S.tx.filter(function(x){ return x.d >= s0; }), 'out'); }
-  function wBal(){ return wEarned() - wSpent(); }
+  // Tiền giờ học trên lớp: mỗi ngày tính theo TỔNG giờ học cả ngày (làm tròn xuống giờ chẵn), cộng khi buổi cuối của ngày kết thúc
+  function clsDayMins(d){
+    var k = key(d), list = classesOn(d.getDay(), k), m = 0, last = '';
+    list.forEach(function(c){ var a = c.start.split(':'), b = c.end.split(':'); m += Math.max(0, (+b[0]*60 + +b[1]) - (+a[0]*60 + +a[1])); if(c.end > last) last = c.end; });
+    if(k === today()){ var n = new Date(); if(pad(n.getHours()) + ':' + pad(n.getMinutes()) < last) return 0; }
+    return m;
+  }
+  function wClass(){
+    var s0 = S.wallet.since, t = today(), money0 = 0, hrs0 = 0;
+    for(var d = new Date(s0 + 'T00:00:00'); key(d) <= t; d.setDate(d.getDate() + 1)){ var h = Math.floor(clsDayMins(d)/60); hrs0 += h; money0 += h*wRate(); }
+    return {money: money0, hours: hrs0};
+  }
+  function wBal(){ return wEarned() + wClass().money - wSpent(); }
   function wNext(extra){ return 60 - ((wMins() + (extra || 0)) % 60); }
   function vTimer(){
     var wb = wBal();
@@ -1407,6 +1421,40 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     else c = '<g>' + nest(catSvg(m), 236, 266, 88, 90) + '</g>';
     h += '<g class="hcat" data-act="catTap" role="button" aria-label="Chạm vào mèo">' + c + '</g>';
     return h + '</svg>';
+  }
+
+
+  /* Nhập lịch học HK 01/2027 – 07/2027 (chạy một lần) */
+  function seedHK2027(){
+    if(S.seedHK2027) return false;
+    var C = [
+      ['27D2FIN50508601','Điều hành công ty cổ phần và đạo đức trong tài chính','Nguyễn Linh Giang',1,'A104','2027-03-22','2027-06-28'],
+      ['27D3BUS53300201','Khởi nghiệp kinh doanh','Cao Văn Tiến',1,'B2-104','2027-07-05','2027-07-26'],
+      ['27D2FIN50500801','Hoạch định ngân sách vốn đầu tư','Lê Thị Lanh',2,'B2-402','2027-01-05','2027-04-06'],
+      ['27D3BUS50326405','Nhập môn tâm lý học','',2,'B2-109','2027-05-25','2027-07-27'],
+      ['27D2POL51002504','Chủ nghĩa xã hội khoa học','Vũ Anh Tuấn',3,'B2-410','2027-05-19','2027-07-21'],
+      ['27D3FIN50509601','Phân tích tài chính','Lê Đặng Vy Linh',3,'B1-409','2027-01-06','2027-04-07'],
+      ['27D2FIN50501601','Quản trị rủi ro tài chính','Nguyễn Trí Minh',4,'B2-410','2027-01-07','2027-04-08'],
+      ['27D3FIN50512102','Phương pháp nghiên cứu trong tài chính','Mai Thị Phương Xuân',4,'B2-109','2027-04-22','2027-07-22'],
+      ['27D3INF50905901','Khoa học dữ liệu','',5,'B2-507','2027-01-08','2027-03-12']
+    ];
+    var OFF = [['2027-02-01','2027-02-14'],['2027-04-16','2027-04-16'],['2027-04-30','2027-05-03']];
+    var LMS = [['2027-01-25','2027-01-31'],['2027-02-15','2027-02-21']];
+    var inR = function(k, R){ return R.some(function(r){ return k >= r[0] && k <= r[1]; }); };
+    var have = {}; S.classes.forEach(function(c){ if(c.lhp) have[c.lhp] = 1; });
+    C.forEach(function(x){
+      if(have[x[0]]) return;
+      var rec = {id: uid('c'), day: x[3], room: x[4], name: x[1], lhp: x[0], start: '17:45', end: '21:10', gv: x[2], mode: 'Tập trung', from: x[5], to: x[6], skip: []};
+      for(var d = new Date(x[5] + 'T00:00:00'); key(d) <= x[6]; d.setDate(d.getDate() + 7)){
+        var k = key(d);
+        if(inR(k, OFF)) rec.skip.push(k);
+        else if(inR(k, LMS)){ rec.skip.push(k); var o1 = Object.assign({}, rec, {id: uid('c'), mode: 'LMS', from: k, to: k}); delete o1.skip; S.classes.push(o1); }
+      }
+      if(!rec.skip.length) delete rec.skip;
+      S.classes.push(rec);
+    });
+    S.seedHK2027 = true;
+    return true;
   }
 
   /* ---------- Lịch học ---------- */
@@ -1859,6 +1907,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
   }
   (function(){ var t0 = today(), n0 = S.countdowns.length; S.countdowns = S.countdowns.filter(function(c){ return c.date >= t0; }); if(S.countdowns.length !== n0) setTimeout(save, 1500); })();
   setInterval(updateTimer, 500);
+  if(!FB && seedHK2027()) save();
   startCloud();
   setInterval(checkWater, 20000);
   setInterval(function(){ var r = document.documentElement, before = r.getAttribute('data-night'); applyLook(); if(r.getAttribute('data-night') !== before) render(); }, 60000);
