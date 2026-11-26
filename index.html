@@ -74,7 +74,7 @@ p{margin:0}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:8px;z-index:5;background:var(--tabbg);backdrop-filter:blur(6px);padding:6px;border-radius:99px;border:2px solid var(--line);justify-self:start}
 .tabs a{text-decoration:none;font-weight:800;padding:6px 16px;border-radius:99px;color:var(--muted);font-size:.95rem}
 .tabs a.on{background:var(--cd);color:var(--white)}
-.tabs a.t1{--cd:var(--mint-d)} .tabs a.t2{--cd:var(--lilac-d)} .tabs a.t3{--cd:var(--peach-d)} .tabs a.t4{--cd:var(--sky-d)} .tabs a.t5{--cd:var(--lemon-d)} .tabs a.t6{--cd:var(--pink-d)}
+.tabs a.t1{--cd:var(--mint-d)} .tabs a.t2{--cd:var(--lilac-d)} .tabs a.t3{--cd:var(--peach-d)} .tabs a.t4{--cd:var(--sky-d)} .tabs a.t5{--cd:var(--lemon-d)} .tabs a.t6{--cd:var(--pink-d)} .tabs a.t7{--cd:var(--navy-d)} .tabs a.t8{--cd:#1F9AA8}
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 @media (max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
 .stats3{grid-template-columns:repeat(3,1fr)}
@@ -508,6 +508,45 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
   @keyframes coinspin{0%,80%,100%{transform:scaleX(1)}90%{transform:scaleX(.15)}}
   .item.on .streak{animation:floaty 2.4s ease-in-out infinite}
 }
+
+/* Habits */
+.hbtitle{font-family:Georgia,"Times New Roman",serif;font-size:1.9rem;color:var(--ink)}
+.hbcard .head{gap:10px}.hbyear{display:flex;align-items:center;gap:6px;margin-left:auto;font-weight:800}.hbyear .navbtn{width:30px;height:30px;font-size:1rem;border:2px solid var(--line)}
+.hbmonths{display:flex;gap:4px;overflow-x:auto;border-bottom:2.5px solid var(--ink);padding-bottom:6px;scrollbar-width:none}.hbmonths::-webkit-scrollbar{display:none}
+.hbm{flex:none;border:0;background:none;cursor:pointer;font-weight:800;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);padding:4px 10px;border-radius:99px}.hbm.on{background:#CFEAFF;color:#1B4F80}
+html[data-night="1"] .hbm.on{background:#2B4A6B;color:#CFEAFF}
+.hbwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.hbt{border-collapse:collapse;width:100%;min-width:760px;font-size:.8rem}
+.hbt th{font-weight:800;padding:4px 0;text-align:center;border-bottom:2.5px solid var(--ink);min-width:22px}
+.hbt th.today{color:var(--pink-d)}
+.hbt td{text-align:center;padding:5px 0;border-bottom:1.5px solid var(--line)}
+.hbt td.today{background:var(--glass)}
+.hbt .hbn{text-align:left;min-width:170px;max-width:220px;padding-right:10px;font-family:"Segoe Print","Bradley Hand","Comic Sans MS",cursive;font-size:.95rem;font-weight:700;position:sticky;left:0;background:var(--c);z-index:1}
+.hbt .hbn span{overflow-wrap:anywhere}.hbt .hbn .del{width:24px;height:24px;font-size:.95rem;vertical-align:middle}
+.hbst{font-family:var(--body);font-size:.68rem;color:var(--muted);font-weight:700;white-space:nowrap}
+.hbsum{font-weight:800;min-width:38px;padding-left:6px}
+.hdot{display:inline-block;width:16px;height:16px;border-radius:50%;border:1.6px solid #C9C2CF;background:transparent;padding:0;cursor:pointer;vertical-align:middle}
+.hdot.on{background:var(--hc);border-color:var(--hc)}.hdot:disabled{cursor:default;opacity:.55}.hdot.ghost{cursor:default;opacity:.5}
+.hbadd .add{flex-wrap:nowrap;font-family:var(--body)}.hbadd input[type=text]{width:100%;padding:5px 8px;font-size:.85rem;border:2px solid var(--line)}
+@media (prefers-reduced-motion: no-preference){.hdot{transition:transform .12s,background .15s}.hdot:not(:disabled):active{transform:scale(.8)}}
+/* Academy Transcript */
+.trtools{display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:wrap}.trcard .chip{background:var(--bg)}.trcard .chip.on{background:#1F9AA8;color:#fff}
+.trwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.trt{border-collapse:collapse;width:100%;min-width:520px;font-size:.9rem}
+.trt th{background:var(--bg);font-weight:800;padding:8px 6px;border:1px solid var(--line);text-align:center}
+.trt td{border:1px solid var(--line);padding:5px 6px;text-align:center}
+.trt td.trn,.trt th.trn{text-align:left}
+.trt tbody tr:nth-child(even) td{background:var(--glass)}
+.trt .trl{font-weight:800;color:#1F9AA8}.trt tr.fail .trl{color:#D7263D}
+.trt .trsep td{background:#DCE6F7 !important;color:#2A4A9A;font-weight:800;text-align:left}
+html[data-night="1"] .trt .trsep td{background:#22304A !important;color:#AFC6FF}
+.trScore{width:64px;text-align:center;padding:4px 6px !important;border:2px solid var(--line) !important;border-radius:10px !important;background:var(--white);font-weight:700}
+.trScore:focus{border-color:#1F9AA8 !important;outline:none}
+.trbtn{white-space:nowrap}.trbtn .step,.trbtn .del{width:26px;height:26px;font-size:.85rem}
+.trsum{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;background:#FBF3E4;border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-weight:700;font-size:.92rem}
+html[data-night="1"] .trsum{background:#2E2619}
+.trsum b{color:#1F9AA8}
+@media (max-width:640px){.trsum{grid-template-columns:1fr}}
 /* Sổ tiết kiệm */
 .lock{display:grid;gap:10px;justify-items:start}
 .lock svg{width:44px;height:44px}
@@ -555,7 +594,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     {id:2,name:'Mệt',col:'#D8C6FF',m:'M11.5 21.5 Q16 19.5 20.5 21.5',sleepy:true},
     {id:1,name:'Buồn',col:'#FFB8CB',m:'M11 22.5 Q16 17.5 21 22.5'}
   ];
-  var TABS = [['hom-nay','Hôm nay','t1'],['lich','Lịch','t2'],['lich-hoc','Lịch học','t6'],['bao-cao','Báo cáo','t4'],['chi-tieu','Chi tiêu','t3']];
+  var TABS = [['hom-nay','Hôm nay','t1'],['habits','Habits','t5'],['muc-tieu','Mục tiêu','t7'],['lich','Lịch','t2'],['lich-hoc','Lịch học','t6'],['bang-diem','Academy Transcript','t8'],['bao-cao','Báo cáo','t4'],['chi-tieu','Chi tiêu','t3']];
   var SKINS = [['keo','Kẹo ngọt','#E0588C'],['bien','Biển xanh','#3B7DD6'],['matcha','Matcha','#2A9A6E'],['hoanghon','Hoàng hôn','#CC6830'],['oaihuong','Oải hương','#7A58D6']];
   var PALS = [['meo','Mèo'],['tho','Thỏ'],['gau','Gấu'],['ga','Gà con']];
   var NIGHTS = [['auto','Tự động (tối 19h–6h)'],['off','Luôn sáng'],['on','Luôn tối']];
@@ -679,7 +718,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
         if(prevU && !same && !(r && r.data)){ lsSet(LS, {updated: 0}); lsSet(LUID, u.uid); lsSet(LT, null); location.reload(); return; }
         if(r && r.data && (!same || (r.updated || 0) > (S.updated || 0)) && safeReload()){ lsSet(LS, adopt(r)); lsSet(LUID, u.uid); location.reload(); return; }
         lsSet(LUID, u.uid); cloudOk = true;
-        if(seedHK2027()){ save(); }
+        if(migrate()){ save(); }
         if(!r || (S.updated || 0) > (r.updated || 0)) cloudPush(); else setStatus('Đã đồng bộ');
         fbDoc.onSnapshot(function(sn){
           var d = sn.data(); if(!d || sn.metadata.hasPendingWrites || !d.data) return;
@@ -865,20 +904,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     h += '<section class="card lilac span2 cdsec"><div class="head"><h2>Đếm ngược</h2><span class="cdnavs"><button class="navbtn prev" data-act="cdNav" data-v="-1" aria-label="Xem mục trước">‹</button><button class="navbtn next" data-act="cdNav" data-v="1" aria-label="Xem mục sau">›</button></span><a class="link" href="#lich" style="text-decoration:none">Thêm ngày</a></div>'
       + (cds.length ? cdTiles(cds).replace('<div class="cds">', '<div class="cds cdrow">') : '<p class="muted">Chưa có ngày thi hay hạn nộp bài nào. Thêm ở mục Lịch nhé.</p>') + '</section>';
 
-    // Thói quen
     var iH = h.length;
-    h += '<section class="card mint"><div class="head"><h2>Thói quen hôm nay</h2><button class="link" data-act="editH">' + (editH ? 'Xong' : 'Sửa') + '</button></div><div class="list">';
-    if(!total) h += '<p class="muted">Chưa có thói quen nào. Thêm một thói quen nhỏ bên dưới nhé.</p>';
-    S.habits.forEach(function(x){
-      var on = doneOn(t, x.id), s = streak(x.id);
-      h += '<div class="item' + (on ? ' on' : '') + '">'
-        + '<button class="check' + (on ? ' on' : '') + '" data-act="toggle" data-h="' + x.id + '" aria-pressed="' + on + '" aria-label="Đánh dấu ' + esc(x.name) + '">' + CHECK + '</button>'
-        + '<span class="name">' + esc(x.name) + '</span>'
-        + (s ? '<span class="streak">' + s + ' ngày liền</span>' : '')
-        + (editH ? '<button class="del" data-act="delH" data-h="' + x.id + '" aria-label="Xoá ' + esc(x.name) + '">×</button>' : '')
-        + '</div>';
-    });
-    h += '</div><form class="add" id="addHabit"><input type="text" id="newHabit" placeholder="Ví dụ: Học 10 từ tiếng Anh" maxlength="80" aria-label="Tên thói quen mới"><button class="btn" type="submit">Thêm</button></form></section>';
 
     // Nước
     var iW = h.length;
@@ -891,9 +917,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     ;
     if(wSet){ h += '<div class="setbox"><div class="chips"><span class="lbl">Mục tiêu</span>';
     [6,8,10].forEach(function(g){ h += '<button class="chip' + (wg===g?' on':'') + '" data-act="wg" data-v="' + g + '">' + g + ' cốc</button>'; });
-    h += '</div><div class="chips"><span class="lbl">Nhắc uống</span>';
-    [[0,'Tắt'],[30,'30 phút'],[60,'1 giờ'],[90,'1,5 giờ']].forEach(function(r){ h += '<button class="chip' + (remind===r[0]?' on':'') + '" data-act="remind" data-v="' + r[0] + '">' + r[1] + '</button>'; });
-    h += '</div><p class="muted">Lời nhắc hiện ngay trên trang khi trang đang mở.</p></div>'; }
+    h += '</div></div>'; }
     h += '</section>';
 
     // Giấc ngủ
@@ -918,8 +942,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     if(sSet){ h += '<div class="setbox"><div class="chips"><span class="lbl">Mục tiêu</span>';
     [7,8,9].forEach(function(g){ h += '<button class="chip' + (S.sleepGoal===g?' on':'') + '" data-act="sg" data-v="' + g + '">' + g + ' giờ</button>'; });
     h += '</div></div>'; }
-    var wk = days.map(function(d){ return sleepMins(S.sleep[key(d)]); }).filter(function(x){ return x != null; });
-    h += (wk.length ? '<p class="muted">Trung bình 7 ngày: ' + hm(Math.round(wk.reduce(function(a,b){ return a+b; },0)/wk.length)) + ' mỗi đêm.</p>' : '') + '</section>';
+    h += '</section>';
 
     // Tâm trạng
     var iM = h.length;
@@ -927,32 +950,12 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     MOODS.forEach(function(m){ var on = S.mood[t] === m.id;
       h += '<button class="mood' + (on ? ' on' : '') + '" data-act="mood" data-v="' + m.id + '" aria-pressed="' + on + '">' + face(m, 40) + '<span>' + m.name + '</span></button>'; });
     h += '</div><p class="muted">Ghi lại mỗi ngày để thấy tâm trạng cả tuần ở bảng bên dưới.</p></section>';
-    h = h.slice(0, iH) + '<div class="span2 trio">' + h.slice(iS, iM) + h.slice(iW, iS) + h.slice(iM) + '</div>' + h.slice(iH, iW);
-
-    // Mục tiêu
-    h += '<section class="card lemon"><div class="head"><h2>Mục tiêu</h2><button class="link" data-act="editG">' + (editG ? 'Xong' : 'Sửa') + '</button></div><div class="list">';
-    if(!S.goals.length) h += '<p class="muted">Chưa có mục tiêu. Đặt một mục tiêu đo được bên dưới nhé.</p>';
-    S.goals.forEach(function(g){
-      var p = g.total ? Math.min(1, g.done/g.total) : 0, ok = g.done >= g.total;
-      h += '<div class="goal' + (ok ? ' done' : '') + '"><div class="top"><span class="name">' + esc(g.name) + '</span>'
-        + '<span class="cnt">' + g.done + '/' + g.total + (ok ? ' · Xong' : '') + '</span>'
-        + '<button class="step" data-act="gminus" data-g="' + g.id + '" aria-label="Giảm">−</button>'
-        + '<button class="step" data-act="gplus" data-g="' + g.id + '" aria-label="Tăng">+</button>'
-        + (editG ? '<button class="del" data-act="delG" data-g="' + g.id + '" aria-label="Xoá ' + esc(g.name) + '">×</button>' : '')
-        + '</div><div class="bar"><i style="width:' + Math.round(p*100) + '%"></i></div></div>';
-    });
-    h += '</div><form class="add" id="addGoal"><input type="text" id="newGoal" placeholder="Mục tiêu mới" maxlength="80" aria-label="Tên mục tiêu"><input type="number" id="newGoalN" min="1" max="999" value="10" aria-label="Số bước để hoàn thành"><button class="btn" type="submit">Thêm</button></form></section>';
+    h = h.slice(0, iH) + '<div class="span2 trio">' + h.slice(iS, iM) + h.slice(iW, iS) + h.slice(iM) + '</div>';
 
     // Tuần
-    h += '<section class="card plain span2"><h2>7 ngày qua</h2><div class="weekbox"><table class="week"><thead><tr><th class="hn">Thói quen</th>';
+    h += '<section class="card plain span2"><h2>7 ngày qua</h2><div class="weekbox"><table class="week"><thead><tr><th class="hn"></th>';
     days.forEach(function(d){ var k = key(d); h += '<th' + (k === t ? ' class="today"' : '') + '>' + DS[d.getDay()] + '<br>' + d.getDate() + '</th>'; });
     h += '</tr></thead><tbody>';
-    S.habits.forEach(function(x){
-      h += '<tr><td class="hn" title="' + esc(x.name) + '">' + esc(x.name) + '</td>';
-      days.forEach(function(d){ var k = key(d), on = doneOn(k, x.id);
-        h += '<td><button class="cell' + (on ? ' on' : '') + '" data-act="cell" data-h="' + x.id + '" data-d="' + k + '" aria-pressed="' + on + '" aria-label="' + esc(x.name) + ' ngày ' + d.getDate() + '/' + (d.getMonth()+1) + '"></button></td>'; });
-      h += '</tr>';
-    });
     h += '<tr class="special"><td class="hn">Nước (cốc)</td>';
     days.forEach(function(d){ var v = S.water[key(d)] || 0; h += '<td><span class="wnum">' + (v || '·') + '</span></td>'; });
     h += '</tr><tr class="special"><td class="hn">Ngủ (giờ)</td>';
@@ -963,7 +966,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     days.forEach(function(d){ var m = moodOf(key(d));
       h += '<td>' + (m ? '<span class="mdot" title="' + m.name + '">' + face(m, 20) + '</span>' : '<span class="wnum" style="color:var(--muted)">·</span>') + '</td>'; });
     var wf = days.map(function(d){ return (S.focus[key(d)] || {}).m || 0; }), wfT = wf.reduce(function(a,b){ return a+b; }, 0), wfOk = wf.filter(function(v){ return v >= ((S.settings && S.settings.studyGoal) || 120); }).length;
-    h += '</tr></tbody></table></div><div class="stats wkf"><div class="stat lilac"><b>' + hrs(wfT) + '</b><span>giờ tập trung 7 ngày</span></div><div class="stat sky"><b>' + hrs(wfT/7) + '</b><span>giờ mỗi ngày</span></div><div class="stat mint"><b>' + wfOk + '/7</b><span>ngày đạt mục tiêu học</span></div></div><p class="muted">Bấm vào ô để đánh dấu bù cho ngày trước.</p></section>';
+    h += '</tr></tbody></table></div><div class="stats wkf"><div class="stat lilac"><b>' + hrs(wfT) + '</b><span>giờ tập trung 7 ngày</span></div><div class="stat sky"><b>' + hrs(wfT/7) + '</b><span>giờ mỗi ngày</span></div><div class="stat mint"><b>' + wfOk + '/7</b><span>ngày đạt mục tiêu học</span></div></div></section>';
 
     // Nhật ký
     h += '<section class="card pink span2"><h2>Nhật ký cuối ngày</h2>';
@@ -1109,8 +1112,8 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
       + '<button class="chip' + (txType==='in'?' on':'') + '" data-act="txType" data-v="in">Khoản nhận</button></div>'
       + '<div class="chips"><span class="lbl">Loại</span>';
     cats.forEach(function(c){ h += '<button class="chip' + (txCat===c?' on':'') + '" data-act="txCat" data-v="' + esc(c) + '">' + esc(c) + '</button>'; });
-    h += '</div><form class="add" id="addTx"><input type="number" id="txAmt" min="1000" step="1000" inputmode="numeric" placeholder="Số tiền (đ)" aria-label="Số tiền (đồng)">'
-      + '<input type="text" id="txNote" maxlength="60" placeholder="Ghi chú, ví dụ: trà sữa" aria-label="Ghi chú">'
+    h += '</div><form class="add" id="addTx"><input type="text" id="txNote" maxlength="60" placeholder="Ghi chú, ví dụ: trà sữa" aria-label="Ghi chú">'
+      + '<input type="number" id="txAmt" min="1000" step="1000" inputmode="numeric" placeholder="Số tiền (đ)" aria-label="Số tiền (đồng)">'
       + '<input type="date" id="txDate" value="' + t + '" aria-label="Ngày"><button class="btn primary" type="submit">Lưu</button></form></section>';
 
     // Theo danh mục
@@ -1436,7 +1439,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
       ['27D3FIN50509601','Phân tích tài chính','Lê Đặng Vy Linh',3,'B1-409','2027-01-06','2027-04-07'],
       ['27D2FIN50501601','Quản trị rủi ro tài chính','Nguyễn Trí Minh',4,'B2-410','2027-01-07','2027-04-08'],
       ['27D3FIN50512102','Phương pháp nghiên cứu trong tài chính','Mai Thị Phương Xuân',4,'B2-109','2027-04-22','2027-07-22'],
-      ['27D3INF50905901','Khoa học dữ liệu','',5,'B2-507','2027-01-08','2027-03-12']
+      ['27D3INF50905901','Khoa học dữ liệu','Nguyễn Văn Dư',5,'B2-507','2027-01-08','2027-03-12']
     ];
     var OFF = [['2027-02-01','2027-02-14'],['2027-04-16','2027-04-16'],['2027-04-30','2027-05-03']];
     var LMS = [['2027-01-25','2027-01-31'],['2027-02-15','2027-02-21']];
@@ -1455,6 +1458,153 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     });
     S.seedHK2027 = true;
     return true;
+  }
+
+  /* ---------- Mục tiêu ---------- */
+  function vGoals(){
+    var h = '';
+    h += '<section class="card lemon span2"><div class="head"><h2>Mục tiêu</h2><button class="link" data-act="editG">' + (editG ? 'Xong' : 'Sửa') + '</button></div><div class="list">';
+    if(!S.goals.length) h += '<p class="muted">Chưa có mục tiêu. Đặt một mục tiêu đo được bên dưới nhé.</p>';
+    S.goals.forEach(function(g){
+      var p = g.total ? Math.min(1, g.done/g.total) : 0, ok = g.done >= g.total;
+      h += '<div class="goal' + (ok ? ' done' : '') + '"><div class="top"><span class="name">' + esc(g.name) + '</span>'
+        + '<span class="cnt">' + g.done + '/' + g.total + (ok ? ' · Xong' : '') + '</span>'
+        + '<button class="step" data-act="gminus" data-g="' + g.id + '" aria-label="Giảm">−</button>'
+        + '<button class="step" data-act="gplus" data-g="' + g.id + '" aria-label="Tăng">+</button>'
+        + (editG ? '<button class="del" data-act="delG" data-g="' + g.id + '" aria-label="Xoá ' + esc(g.name) + '">×</button>' : '')
+        + '</div><div class="bar"><i style="width:' + Math.round(p*100) + '%"></i></div></div>';
+    });
+    h += '</div><form class="add" id="addGoal"><input type="text" id="newGoal" placeholder="Mục tiêu mới" maxlength="80" aria-label="Tên mục tiêu"><input type="number" id="newGoalN" min="1" max="999" value="10" aria-label="Số bước để hoàn thành"><button class="btn" type="submit">Thêm</button></form></section>';
+
+    return h;
+  }
+
+  /* ---------- Cập nhật dữ liệu một lần ---------- */
+  function migrate(){
+    var ch = seedHK2027();
+    if(!S.fixGvKHDL){
+      S.classes.forEach(function(c){ if(c.lhp === '27D3INF50905901' && !c.gv) c.gv = 'Nguyễn Văn Dư'; });
+      S.fixGvKHDL = true; ch = true;
+    }
+    if(seedTranscript()) ch = true;
+    return ch;
+  }
+
+  /* ---------- Habits (bảng theo dõi theo tháng) ---------- */
+  var HCOL = ['#F2707A','#F06CB8','#C38BE0','#3AB0D2','#5CC48E','#F5A061','#7C8CF0','#E0A800'];
+  var MONTHS = ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
+  var hbY = new Date().getFullYear(), hbM = new Date().getMonth(), editHb = false;
+  function hColor(i){ return HCOL[i % HCOL.length]; }
+  function vHabits(){
+    var t = today(), n = new Date(hbY, hbM + 1, 0).getDate(), ym = hbY + '-' + pad(hbM + 1);
+    var h = '<section class="card plain span2 hbcard"><div class="head"><h2 class="hbtitle">Habit Tracker</h2>'
+      + '<span class="hbyear"><button class="navbtn" data-act="hbY" data-v="-1" aria-label="Năm trước">‹</button><b>' + hbY + '</b><button class="navbtn" data-act="hbY" data-v="1" aria-label="Năm sau">›</button></span>'
+      + '<button class="link" data-act="editHb">' + (editHb ? 'Xong' : 'Sửa') + '</button></div>'
+      + '<div class="hbmonths">' + MONTHS.map(function(m, i){ return '<button class="hbm' + (i === hbM ? ' on' : '') + '" data-act="hbM" data-v="' + i + '">' + m + '</button>'; }).join('') + '</div>'
+      + '<div class="hbwrap"><table class="hbt"><thead><tr><th class="hbn"></th>';
+    for(var d = 1; d <= n; d++){ var k0 = ym + '-' + pad(d); h += '<th' + (k0 === t ? ' class="today"' : '') + '>' + d + '</th>'; }
+    h += '<th class="hbsum">Xong</th></tr></thead><tbody>';
+    S.habits.forEach(function(x, i){
+      var col = hColor(i), cnt = 0;
+      h += '<tr><td class="hbn" style="color:' + col + '">' + (editHb ? '<button class="del" data-act="delH" data-h="' + x.id + '" aria-label="Xoá ' + esc(x.name) + '">×</button> ' : '') + '<span>' + esc(x.name) + '</span>' + (streak(x.id) > 1 ? ' <small class="hbst">' + streak(x.id) + ' ngày liền</small>' : '') + '</td>';
+      for(var d2 = 1; d2 <= n; d2++){
+        var k = ym + '-' + pad(d2), on = doneOn(k, x.id), fut = k > t; if(on) cnt++;
+        h += '<td' + (k === t ? ' class="today"' : '') + '><button class="hdot' + (on ? ' on' : '') + '" style="--hc:' + col + '" data-act="cell" data-h="' + x.id + '" data-d="' + k + '"' + (fut ? ' disabled' : '') + ' aria-pressed="' + on + '" aria-label="' + esc(x.name) + ' ngày ' + d2 + '/' + (hbM + 1) + '"></button></td>';
+      }
+      h += '<td class="hbsum" style="color:' + col + '">' + cnt + '</td></tr>';
+    });
+    // dòng trống để thêm thói quen
+    h += '<tr class="hbadd"><td class="hbn"><form class="add" id="addHabit"><input type="text" id="newHabit" placeholder="+ Thêm thói quen mới" maxlength="80" aria-label="Tên thói quen mới"><button class="btn small primary" type="submit">Thêm</button></form></td>';
+    for(var d3 = 1; d3 <= n; d3++) h += '<td><span class="hdot ghost"></span></td>';
+    h += '<td></td></tr></tbody></table></div>'
+      + (S.habits.length ? '<p class="muted">Chạm vào chấm tròn để đánh dấu ngày đã làm. Ngày trong tương lai chưa đánh dấu được.</p>' : '<p class="muted">Chưa có thói quen nào. Gõ tên thói quen vào dòng trống ở trên rồi bấm Thêm nhé.</p>')
+      + '</section>';
+    return h;
+  }
+
+  /* ---------- Academy Transcript ---------- */
+  var CTDT = [
+    ['3300121','Học ôn tiếng Anh đầu ra lớp T3,5,7 (VB2+LT+VLVH)',0],['3300122','Học ôn tiếng Anh đầu ra lớp T2,4,6 (VB2+LT+VLVH)',0],['THĐRO','Ôn tập chuẩn KN sử dụng CNTT',0],
+    ['ACC507001','Nguyên lý kế toán',3],['ECO501001','Kinh tế vi mô',3],['ECO501002','Kinh tế vĩ mô',3],['FIN505072','Lý thuyết tài chính',3],['FIN505084','Tài chính doanh nghiệp',3],
+    ['BAN506084','Quản trị và chiến lược ngân hàng',3],['FIN505085','Tài chính quốc tế',3],['LAW511001','Luật kinh doanh',3],['MAT508001','Toán dành cho kinh tế và quản trị',3],['STA508005','Thống kê ứng dụng trong Kinh tế và Kinh doanh',3],
+    ['ACC507195','Kế toán tài chính căn bản',3],['BUS503264','Nhập môn tâm lý học',2],['ENG513154','Tiếng Anh tổng quát',4],['FIN505003','Tài chính doanh nghiệp nâng cao',3],['FIN505121','Phương pháp nghiên cứu trong tài chính',3],['PHI510023','Triết học Mác LêNin',3],
+    ['BUS503095','Kỹ năng mềm',2],['ECO501220','Phát triển bền vững',2],['ENG513197','Tiếng Anh lĩnh vực Kinh doanh (HP1)',3],['FIN505095','Đầu tư tài chính',3],['POL510024','Kinh tế chính trị Mác LêNin',2],['TAX504016','Hoạch định Thuế',3],
+    ['ACC507011','Kế toán quản trị (tự chọn nhóm 1)',3],['LAW511037','Luật doanh nghiệp (tự chọn nhóm 1)',3],['MAN502001','Quản trị học (tự chọn nhóm 1)',3],
+    ['ENG513198','Tiếng Anh lĩnh vực Kinh doanh (HP2)',3],['FIN505004','Kinh tế lượng tài chính',3],['FIN505086','Điều hành công ty cổ phần và đạo đức trong tài chính',3],['FIN505096','Phân tích tài chính',3],['INF509059','Khoa học dữ liệu',2],['POL510025','Chủ nghĩa xã hội khoa học',2],['TEC550059','Tư duy thiết kế',2],
+    ['BUS533002','Khởi nghiệp kinh doanh',1],['FIN505008','Hoạch định ngân sách vốn đầu tư',3],['FIN505014','Tài chính công ty đa quốc gia',3],['FIN505016','Quản trị rủi ro tài chính',3],['FIN505122','Hợp nhất, sáp nhập và tái cấu trúc doanh nghiệp',3],['HCM510004','Tư tưởng Hồ Chí Minh',2],
+    ['FIN505038','Tài chính định lượng',3],['HIS510026','Lịch sử Đảng Cộng Sản Việt Nam',2],
+    ['FIN505006','Định giá doanh nghiệp (tự chọn nhóm 2)',3],['FIN505007','Tài chính hành vi (tự chọn nhóm 2)',3],['FIN505020','Đầu tư bất động sản (tự chọn nhóm 2)',3],['FIN505088','Vốn cổ phần tư nhân và vốn đầu tư mạo hiểm (tự chọn nhóm 2)',3],['FIN505092','Thực hành quản trị rủi ro công ty (tự chọn nhóm 2)',3],['FIN505102','Tài chính khởi nghiệp (tự chọn nhóm 2)',3],['UII550089','Công nghệ tài chính (tự chọn nhóm 2)',3],
+    ['ENG513192','Thi Tiếng Anh đầu ra',0],['FIN505180','Thực tập và tốt nghiệp - FN',10],['THDR','Chuẩn kỹ năng sử dụng CNTT',0]
+  ];
+  var CTDT_SCORE = {ACC507001: 10, ECO501001: 9.5, ECO501002: 9, FIN505072: 9.2, FIN505084: 9.7, LAW511001: 10,
+    ENG513154: 'P', HCM510004: 'P', HIS510026: 'P', MAT508001: 'P', PHI510023: 'P', POL510024: 'P', THDR: 'P'};
+  function seedTranscript(){
+    if(S.seedTr) return false;
+    S.transcript = S.transcript || [];
+    CTDT.forEach(function(x){ var r = {id: uid('m'), code: x[0], name: x[1], tc: x[2]}; if(CTDT_SCORE[x[0]] != null) r.score = CTDT_SCORE[x[0]]; S.transcript.push(r); });
+    S.trTotal = S.trTotal || 123;
+    S.seedTr = true;
+    return true;
+  }
+  // Quy đổi theo bảng điểm (loại đạt từ 5,0); dưới 5,0 là F (chưa đạt)
+  function grade(sc){
+    if(sc === 'P') return {l: 'P', g4: null};
+    var v = +sc;
+    if(v >= 9) return {l: 'A+', g4: 4};
+    if(v >= 8.5) return {l: 'A', g4: 4};
+    if(v >= 8) return {l: 'B+', g4: 3.5};
+    if(v >= 7) return {l: 'B', g4: 3};
+    if(v >= 6.5) return {l: 'C+', g4: 2.5};
+    if(v >= 5.5) return {l: 'C', g4: 2};
+    if(v >= 5) return {l: 'D+', g4: 1.5};
+    return {l: 'F', g4: 0};
+  }
+  var hasScore = function(r){ return r.score != null && r.score !== ''; };
+  var f1 = function(v){ return (Math.round(v*10)/10).toFixed(1); }, f2 = function(v){ return (Math.round(v*100)/100).toFixed(2); };
+  var trScale = lsGet('nangcap-trscale') || 10, editTr = false, trDelAsk = null;
+  function trOrdered(){ var a = S.transcript || []; return a.filter(hasScore).concat(a.filter(function(r){ return !hasScore(r); })); }
+  function trStats(){
+    var a = S.transcript || [], reg = 0, pass = 0, pTc = 0, s10 = 0, s4 = 0, w = 0;
+    a.forEach(function(r){
+      if(!hasScore(r)) return;
+      if(r.score === 'P'){ pTc += r.tc; return; }
+      if(!r.tc) return;
+      var g = grade(r.score); reg += r.tc; if(g.l !== 'F') pass += r.tc;
+      s10 += r.score * r.tc; s4 += g.g4 * r.tc; w += r.tc;
+    });
+    return {reg: reg, pass: pass, pTc: pTc, avg10: w ? s10/w : null, avg4: w ? s4/w : null};
+  }
+  function vTranscript(){
+    if(!S.transcript) S.transcript = [];
+    var list = trOrdered(), st = trStats(), nG = (S.transcript).filter(hasScore).length;
+    var h = '<section class="card plain span2 trcard"><div class="head"><h2>Academy Transcript</h2><span class="trtools">'
+      + '<span class="chips"><button class="chip' + (trScale === 10 ? ' on' : '') + '" data-act="trScale" data-v="10">Thang 10</button><button class="chip' + (trScale === 4 ? ' on' : '') + '" data-act="trScale" data-v="4">Thang 4</button></span>'
+      + '<button class="link" data-act="editTr">' + (editTr ? 'Xong' : 'Sửa') + '</button></span></div>'
+      + '<div class="trwrap"><table class="trt"><thead><tr><th>STT</th><th class="trn">Tên HP</th><th>Số TC</th><th>Điểm' + (trScale === 4 ? ' (thang 4)' : ' (thang 10)') + '</th><th>Điểm chữ</th>' + (editTr ? '<th></th>' : '') + '</tr></thead><tbody>';
+    list.forEach(function(r, i){
+      var g = hasScore(r) ? grade(r.score) : null;
+      if(i === nG && nG) h += '<tr class="trsep"><td colspan="' + (editTr ? 6 : 5) + '">Chưa có điểm</td></tr>';
+      var cell;
+      if(trScale === 10) cell = '<input class="trScore" data-m="' + r.id + '" type="text" inputmode="decimal" maxlength="4" value="' + (hasScore(r) ? (r.score === 'P' ? 'P' : f1(r.score)) : '') + '" placeholder="–" aria-label="Điểm ' + esc(r.name) + '">';
+      else cell = g ? (g.g4 == null ? '–' : f1(g.g4)) : '';
+      h += '<tr' + (g && g.l === 'F' ? ' class="fail"' : '') + '><td>' + (i + 1) + '</td><td class="trn">' + esc(r.name) + '</td><td>' + r.tc + '</td><td>' + cell + '</td><td class="trl">' + (g ? g.l : '') + '</td>'
+        + (editTr ? '<td class="trbtn"><button class="step" data-act="trUp" data-m="' + r.id + '" aria-label="Lên">↑</button><button class="step" data-act="trDown" data-m="' + r.id + '" aria-label="Xuống">↓</button><button class="del" data-act="trDel" data-m="' + r.id + '"' + (trDelAsk === r.id ? ' style="color:#D7263D;width:auto;border-radius:99px;padding:0 8px;font-size:.75rem">Xoá?' : ' aria-label="Xoá học phần">×') + '</button></td>' : '')
+        + '</tr>';
+    });
+    if(!list.length) h += '<tr><td colspan="5" class="muted">Chưa có học phần nào.</td></tr>';
+    h += '</tbody></table></div>'
+      + '<div class="trsum"><div><p>- ĐVHT đạt: <b>' + st.pass + '</b></p><p>- Điểm TB (thang ' + trScale + '): <b>' + (st.avg10 == null ? '—' : trScale === 10 ? f2(st.avg10) : f2(st.avg4)) + '</b></p><p>- Tín chỉ miễn/bảo lưu (P): <b>' + st.pTc + '</b></p></div>'
+      + '<div><p>- Tổng số ĐVHT tích lũy/Số ĐK: <b>' + st.pass + '/' + st.reg + '</b></p><p>- Điểm TB chung: <b>' + (st.avg10 == null ? '—' : f2(st.avg10) + ' (thang 10) · ' + f2(st.avg4) + ' (thang 4)') + '</b></p><p>- Tiến độ CTĐT: <b>' + (st.pass + st.pTc) + '/' + (S.trTotal || 123) + ' TC</b></p></div></div>'
+      + '<form class="add" id="addTr"><input type="text" id="trName" maxlength="100" placeholder="Tên học phần mới" aria-label="Tên học phần"><input type="number" id="trTc" min="0" max="20" value="3" inputmode="numeric" aria-label="Số tín chỉ"><button class="btn primary" type="submit">Thêm học phần</button></form>'
+      + '<p class="muted">Nhập điểm thang 10 (ví dụ 8,5), trang tự quy đổi sang điểm chữ và thang 4. Gõ P cho môn được miễn hoặc bảo lưu: tính vào tín chỉ tích lũy nhưng không tính điểm TB. Môn 0 tín chỉ không tính điểm TB. Bấm Sửa để di chuyển hoặc xoá học phần.</p></section>';
+    return h;
+  }
+  function trMove(id, dir){
+    var a = S.transcript, r = a.filter(function(x){ return x.id === id; })[0]; if(!r) return;
+    var grp = a.filter(function(x){ return hasScore(x) === hasScore(r); }), gi = grp.indexOf(r), nb = grp[gi + dir];
+    if(!nb) return;
+    var i = a.indexOf(r), j = a.indexOf(nb); a[i] = nb; a[j] = r;
+    save(); render();
   }
 
   /* ---------- Lịch học ---------- */
@@ -1804,11 +1954,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
     applyLook();
     lastSig = '';
     var h = vHeader();
-    h += tab === 'lich' ? vCal() : tab === 'chi-tieu' ? vMoney() + vVault() : tab === 'bao-cao' ? vReport() : tab === 'lich-hoc' ? vClasses() : vToday();
-    if(nudge){
-      h += '<div class="nudge" role="alert"><p>Đến giờ uống nước rồi, ' + esc(nm()) + '!</p><span class="muted">Một cốc nước nhỏ giúp bạn tỉnh táo hơn khi học.</span>'
-        + '<div class="row"><button class="btn primary" data-act="w+">Uống rồi, +1 cốc</button><button class="btn" data-act="snooze">Nhắc lại sau 10 phút</button></div></div>';
-    }
+    h += tab === 'lich' ? vCal() : tab === 'chi-tieu' ? vMoney() + vVault() : tab === 'bao-cao' ? vReport() : tab === 'lich-hoc' ? vClasses() : tab === 'habits' ? vHabits() : tab === 'muc-tieu' ? vGoals() : tab === 'bang-diem' ? vTranscript() : vToday();
     morphInto(app, '<div class="wrap">' + h + '</div>' + vFocus());
     updateTimer();
     renderCat();
@@ -1907,9 +2053,8 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
   }
   (function(){ var t0 = today(), n0 = S.countdowns.length; S.countdowns = S.countdowns.filter(function(c){ return c.date >= t0; }); if(S.countdowns.length !== n0) setTimeout(save, 1500); })();
   setInterval(updateTimer, 500);
-  if(!FB && seedHK2027()) save();
+  if(!FB && migrate()) save();
   startCloud();
-  setInterval(checkWater, 20000);
   setInterval(function(){ var r = document.documentElement, before = r.getAttribute('data-night'); applyLook(); if(r.getAttribute('data-night') !== before) render(); }, 60000);
 
 
@@ -1943,6 +2088,14 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
       fxBurst(rc, FX.heart, 6);
     }
     else if(a === 'look'){ lookOpen = !lookOpen; render(); }
+    else if(a === 'hbM'){ hbM = +b.dataset.v; render(); }
+    else if(a === 'hbY'){ hbY += +b.dataset.v; render(); }
+    else if(a === 'editHb'){ editHb = !editHb; render(); }
+    else if(a === 'trScale'){ trScale = +b.dataset.v; lsSet('nangcap-trscale', trScale); render(); }
+    else if(a === 'editTr'){ editTr = !editTr; trDelAsk = null; render(); }
+    else if(a === 'trUp' || a === 'trDown') trMove(b.dataset.m, a === 'trUp' ? -1 : 1);
+    else if(a === 'trDel' && trDelAsk !== b.dataset.m){ trDelAsk = b.dataset.m; render(); setTimeout(function(){ if(trDelAsk){ trDelAsk = null; render(); } }, 4000); }
+    else if(a === 'trDel'){ var dm = b.dataset.m; trDelAsk = null; S.transcript = S.transcript.filter(function(x){ return x.id !== dm; }); save(); render(); }
     else if(a === 'clsDay'){ var cd0 = S.classes.filter(function(c){ return c.id === b.dataset.c; })[0]; if(cd0){ cd0.day = +b.dataset.v; save(); render(); } }
     else if(a === 'clsEdit'){ classEdit = b.dataset.c; render(); var cf = $('#clsForm'); if(cf) cf.scrollIntoView({behavior: 'smooth', block: 'center'}); }
     else if(a === 'clsCancel'){ classEdit = null; render(); }
@@ -2120,6 +2273,10 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
       else if(classEdit === 'new'){ rec.id = uid('c'); S.classes.push(rec); classEdit = null; }
       else { rec.id = uid('c'); S.classes.push(rec); }
       save(); render();
+    } else if(id === 'addTr'){
+      v = $('#trName').value.trim(); if(!v) return;
+      var tcv = Math.max(0, Math.min(20, parseInt($('#trTc').value, 10) || 0));
+      S.transcript = S.transcript || []; S.transcript.push({id: uid('m'), code: '', name: v, tc: tcv}); save(); render();
     } else if(id === 'addCd'){
       v = $('#cdName').value.trim(); var cdD = $('#cdDate').value;
       if(!v || !cdD) return;
@@ -2152,6 +2309,15 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
       var mode = e.submitter && e.submitter.dataset.mode === 'take' ? -1 : 1;
       j.saved = Math.max(0, j.saved + mode * n); save(); render();
     }
+  });
+  document.addEventListener('change', function(e){
+    var el = e.target; if(!el.classList || !el.classList.contains('trScore')) return;
+    var r = (S.transcript || []).filter(function(x){ return x.id === el.dataset.m; })[0]; if(!r) return;
+    var raw = el.value.trim().replace(',', '.');
+    if(!raw) delete r.score;
+    else if(/^p$/i.test(raw)) r.score = 'P';
+    else { var n = parseFloat(raw); if(isNaN(n) || n < 0 || n > 10){ el.value = hasScore(r) ? (r.score === 'P' ? 'P' : f1(r.score)) : ''; setStatus('Điểm phải từ 0 đến 10 (hoặc P).'); return; } r.score = Math.round(n*10)/10; }
+    save(); render();
   });
   document.addEventListener('input', function(e){
     var j = e.target.dataset && e.target.dataset.j;
