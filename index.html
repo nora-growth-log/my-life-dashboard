@@ -510,7 +510,7 @@ select{font:inherit;color:inherit;background:var(--white);border:2px solid trans
 }
 
 /* Habits */
-.hbtitle{font-family:Georgia,"Times New Roman",serif;font-size:1.9rem;color:var(--ink)}
+
 .hbcard .head{gap:10px}.hbyear{display:flex;align-items:center;gap:6px;margin-left:auto;font-weight:800}.hbyear .navbtn{width:30px;height:30px;font-size:1rem;border:2px solid var(--line)}
 .hbmonths{display:flex;gap:4px;overflow-x:auto;border-bottom:2.5px solid var(--ink);padding-bottom:6px;scrollbar-width:none}.hbmonths::-webkit-scrollbar{display:none}
 .hbm{flex:none;border:0;background:none;cursor:pointer;font-weight:800;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);padding:4px 10px;border-radius:99px}.hbm.on{background:#CFEAFF;color:#1B4F80}
@@ -521,7 +521,7 @@ html[data-night="1"] .hbm.on{background:#2B4A6B;color:#CFEAFF}
 .hbt th.today{color:var(--pink-d)}
 .hbt td{text-align:center;padding:5px 0;border-bottom:1.5px solid var(--line)}
 .hbt td.today{background:var(--glass)}
-.hbt .hbn{text-align:left;min-width:170px;max-width:220px;padding-right:10px;font-family:"Segoe Print","Bradley Hand","Comic Sans MS",cursive;font-size:.95rem;font-weight:700;position:sticky;left:0;background:var(--c);z-index:1}
+.hbt .hbn{text-align:left;min-width:170px;max-width:220px;padding-right:10px;font-size:.95rem;font-weight:700;position:sticky;left:0;background:var(--c);z-index:1}
 .hbt .hbn span{overflow-wrap:anywhere}.hbt .hbn .del{width:24px;height:24px;font-size:.95rem;vertical-align:middle}
 .hbst{font-family:var(--body);font-size:.68rem;color:var(--muted);font-weight:700;white-space:nowrap}
 .hbsum{font-weight:800;min-width:38px;padding-left:6px}
@@ -1497,7 +1497,7 @@ html[data-night="1"] .trsum{background:#2E2619}
   function hColor(i){ return HCOL[i % HCOL.length]; }
   function vHabits(){
     var t = today(), n = new Date(hbY, hbM + 1, 0).getDate(), ym = hbY + '-' + pad(hbM + 1);
-    var h = '<section class="card plain span2 hbcard"><div class="head"><h2 class="hbtitle">Habit Tracker</h2>'
+    var h = '<section class="card plain span2 hbcard"><div class="head"><h2>Habit Tracker</h2>'
       + '<span class="hbyear"><button class="navbtn" data-act="hbY" data-v="-1" aria-label="Năm trước">‹</button><b>' + hbY + '</b><button class="navbtn" data-act="hbY" data-v="1" aria-label="Năm sau">›</button></span>'
       + '<button class="link" data-act="editHb">' + (editHb ? 'Xong' : 'Sửa') + '</button></div>'
       + '<div class="hbmonths">' + MONTHS.map(function(m, i){ return '<button class="hbm' + (i === hbM ? ' on' : '') + '" data-act="hbM" data-v="' + i + '">' + m + '</button>'; }).join('') + '</div>'
@@ -1506,7 +1506,7 @@ html[data-night="1"] .trsum{background:#2E2619}
     h += '<th class="hbsum">Xong</th></tr></thead><tbody>';
     S.habits.forEach(function(x, i){
       var col = hColor(i), cnt = 0;
-      h += '<tr><td class="hbn" style="color:' + col + '">' + (editHb ? '<button class="del" data-act="delH" data-h="' + x.id + '" aria-label="Xoá ' + esc(x.name) + '">×</button> ' : '') + '<span>' + esc(x.name) + '</span>' + (streak(x.id) > 1 ? ' <small class="hbst">' + streak(x.id) + ' ngày liền</small>' : '') + '</td>';
+      h += '<tr><td class="hbn" style="color:' + col + '">' + (editHb ? '<button class="del" data-act="delH" data-h="' + x.id + '" aria-label="Xoá ' + esc(x.name) + '">×</button> ' : '') + '<span>' + esc(x.name) + '</span></td>';
       for(var d2 = 1; d2 <= n; d2++){
         var k = ym + '-' + pad(d2), on = doneOn(k, x.id), fut = k > t; if(on) cnt++;
         h += '<td' + (k === t ? ' class="today"' : '') + '><button class="hdot' + (on ? ' on' : '') + '" style="--hc:' + col + '" data-act="cell" data-h="' + x.id + '" data-d="' + k + '"' + (fut ? ' disabled' : '') + ' aria-pressed="' + on + '" aria-label="' + esc(x.name) + ' ngày ' + d2 + '/' + (hbM + 1) + '"></button></td>';
@@ -1562,7 +1562,8 @@ html[data-night="1"] .trsum{background:#2E2619}
   var hasScore = function(r){ return r.score != null && r.score !== ''; };
   var f1 = function(v){ return (Math.round(v*10)/10).toFixed(1); }, f2 = function(v){ return (Math.round(v*100)/100).toFixed(2); };
   var trScale = lsGet('nangcap-trscale') || 10, editTr = false, trDelAsk = null;
-  function trOrdered(){ var a = S.transcript || []; return a.filter(hasScore).concat(a.filter(function(r){ return !hasScore(r); })); }
+  function trGrp(r){ return r.score === 'P' ? 0 : hasScore(r) ? 1 : 2; }
+  function trOrdered(){ var a = S.transcript || []; return [0, 1, 2].reduce(function(o, g){ return o.concat(a.filter(function(r){ return trGrp(r) === g; })); }, []); }
   function trStats(){
     var a = S.transcript || [], reg = 0, pass = 0, pTc = 0, s10 = 0, s4 = 0, w = 0;
     a.forEach(function(r){
@@ -1579,14 +1580,14 @@ html[data-night="1"] .trsum{background:#2E2619}
     var list = trOrdered(), st = trStats(), nG = (S.transcript).filter(hasScore).length;
     var h = '<section class="card plain span2 trcard"><div class="head"><h2>Academy Transcript</h2><span class="trtools">'
       + '<span class="chips"><button class="chip' + (trScale === 10 ? ' on' : '') + '" data-act="trScale" data-v="10">Thang 10</button><button class="chip' + (trScale === 4 ? ' on' : '') + '" data-act="trScale" data-v="4">Thang 4</button></span>'
-      + '<button class="link" data-act="editTr">' + (editTr ? 'Xong' : 'Sửa') + '</button></span></div>'
-      + '<div class="trwrap"><table class="trt"><thead><tr><th>STT</th><th class="trn">Tên HP</th><th>Số TC</th><th>Điểm' + (trScale === 4 ? ' (thang 4)' : ' (thang 10)') + '</th><th>Điểm chữ</th>' + (editTr ? '<th></th>' : '') + '</tr></thead><tbody>';
+      + '<button class="btn small' + (editTr ? ' primary' : '') + '" data-act="editTr">' + (editTr ? 'Xong' : 'Sửa / nhập điểm') + '</button></span></div>'
+      + '<div class="trwrap"><table class="trt"><thead><tr><th>STT</th><th class="trn">Tên HP</th><th>Số TC</th><th>Điểm' + (editTr ? ' (nhập thang 10)' : trScale === 4 ? ' (thang 4)' : ' (thang 10)') + '</th><th>Điểm chữ</th>' + (editTr ? '<th></th>' : '') + '</tr></thead><tbody>';
     list.forEach(function(r, i){
       var g = hasScore(r) ? grade(r.score) : null;
       if(i === nG && nG) h += '<tr class="trsep"><td colspan="' + (editTr ? 6 : 5) + '">Chưa có điểm</td></tr>';
       var cell;
-      if(trScale === 10) cell = '<input class="trScore" data-m="' + r.id + '" type="text" inputmode="decimal" maxlength="4" value="' + (hasScore(r) ? (r.score === 'P' ? 'P' : f1(r.score)) : '') + '" placeholder="–" aria-label="Điểm ' + esc(r.name) + '">';
-      else cell = g ? (g.g4 == null ? '–' : f1(g.g4)) : '';
+      if(editTr) cell = '<input class="trScore" data-m="' + r.id + '" type="text" inputmode="decimal" maxlength="4" value="' + (hasScore(r) ? (r.score === 'P' ? 'P' : f1(r.score)) : '') + '" placeholder="–" aria-label="Điểm ' + esc(r.name) + '">';
+      else cell = !g ? '' : r.score === 'P' ? 'P' : trScale === 10 ? f1(r.score) : f1(g.g4);
       h += '<tr' + (g && g.l === 'F' ? ' class="fail"' : '') + '><td>' + (i + 1) + '</td><td class="trn">' + esc(r.name) + '</td><td>' + r.tc + '</td><td>' + cell + '</td><td class="trl">' + (g ? g.l : '') + '</td>'
         + (editTr ? '<td class="trbtn"><button class="step" data-act="trUp" data-m="' + r.id + '" aria-label="Lên">↑</button><button class="step" data-act="trDown" data-m="' + r.id + '" aria-label="Xuống">↓</button><button class="del" data-act="trDel" data-m="' + r.id + '"' + (trDelAsk === r.id ? ' style="color:#D7263D;width:auto;border-radius:99px;padding:0 8px;font-size:.75rem">Xoá?' : ' aria-label="Xoá học phần">×') + '</button></td>' : '')
         + '</tr>';
@@ -1596,12 +1597,12 @@ html[data-night="1"] .trsum{background:#2E2619}
       + '<div class="trsum"><div><p>- ĐVHT đạt: <b>' + st.pass + '</b></p><p>- Điểm TB (thang ' + trScale + '): <b>' + (st.avg10 == null ? '—' : trScale === 10 ? f2(st.avg10) : f2(st.avg4)) + '</b></p><p>- Tín chỉ miễn/bảo lưu (P): <b>' + st.pTc + '</b></p></div>'
       + '<div><p>- Tổng số ĐVHT tích lũy/Số ĐK: <b>' + st.pass + '/' + st.reg + '</b></p><p>- Điểm TB chung: <b>' + (st.avg10 == null ? '—' : f2(st.avg10) + ' (thang 10) · ' + f2(st.avg4) + ' (thang 4)') + '</b></p><p>- Tiến độ CTĐT: <b>' + (st.pass + st.pTc) + '/' + (S.trTotal || 123) + ' TC</b></p></div></div>'
       + '<form class="add" id="addTr"><input type="text" id="trName" maxlength="100" placeholder="Tên học phần mới" aria-label="Tên học phần"><input type="number" id="trTc" min="0" max="20" value="3" inputmode="numeric" aria-label="Số tín chỉ"><button class="btn primary" type="submit">Thêm học phần</button></form>'
-      + '<p class="muted">Nhập điểm thang 10 (ví dụ 8,5), trang tự quy đổi sang điểm chữ và thang 4. Gõ P cho môn được miễn hoặc bảo lưu: tính vào tín chỉ tích lũy nhưng không tính điểm TB. Môn 0 tín chỉ không tính điểm TB. Bấm Sửa để di chuyển hoặc xoá học phần.</p></section>';
+      + '<p class="muted">Bấm Sửa / nhập điểm ở đầu bảng để nhập điểm thang 10 (ví dụ 8,5), di chuyển hoặc xoá học phần. Trang tự quy đổi sang điểm chữ và thang 4. Gõ P cho môn được miễn hoặc bảo lưu: tính vào tín chỉ tích lũy nhưng không tính điểm TB. Môn 0 tín chỉ không tính điểm TB.</p></section>';
     return h;
   }
   function trMove(id, dir){
     var a = S.transcript, r = a.filter(function(x){ return x.id === id; })[0]; if(!r) return;
-    var grp = a.filter(function(x){ return hasScore(x) === hasScore(r); }), gi = grp.indexOf(r), nb = grp[gi + dir];
+    var grp = a.filter(function(x){ return trGrp(x) === trGrp(r); }), gi = grp.indexOf(r), nb = grp[gi + dir];
     if(!nb) return;
     var i = a.indexOf(r), j = a.indexOf(nb); a[i] = nb; a[j] = r;
     save(); render();
