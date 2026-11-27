@@ -542,6 +542,12 @@ html[data-night="1"] .hbm.on{background:#2B4A6B;color:#CFEAFF}
 html[data-night="1"] .trt .trsep td{background:#22304A !important;color:#AFC6FF}
 .trScore{width:64px;text-align:center;padding:4px 6px !important;border:2px solid var(--line) !important;border-radius:10px !important;background:var(--white);font-weight:700}
 .trScore:focus{border-color:#1F9AA8 !important;outline:none}
+.trDrag{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--bg);color:var(--muted);font-size:1.1rem;cursor:grab;touch-action:none;user-select:none}
+.trDrag:hover{color:#1F9AA8}
+body.trdragging,body.trdragging *{cursor:grabbing !important;user-select:none}
+.trt tr.dragging td{opacity:.45;background:#E6F6F8 !important}
+.trt tr.dropb td{box-shadow:inset 0 3px 0 #1F9AA8}
+.trt tr.dropa td{box-shadow:inset 0 -3px 0 #1F9AA8}
 .trbtn{white-space:nowrap}.trbtn .step,.trbtn .del{width:26px;height:26px;font-size:.85rem}
 .trsum{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;background:#FBF3E4;border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-weight:700;font-size:.92rem}
 html[data-night="1"] .trsum{background:#2E2619}
@@ -1661,8 +1667,8 @@ html[data-night="1"] .trsum{background:#2E2619}
       var cell;
       if(editTr) cell = '<input class="trScore" data-m="' + r.id + '" type="text" inputmode="decimal" maxlength="4" value="' + (hasScore(r) ? (r.score === 'P' ? 'P' : f1(r.score)) : '') + '" placeholder="–" aria-label="Điểm ' + esc(r.name) + '">';
       else cell = !g ? '' : r.score === 'P' ? 'P' : trScale === 10 ? f1(r.score) : f1(g.g4);
-      h += '<tr' + (g && g.l === 'F' ? ' class="fail"' : '') + '><td>' + (i + 1) + '</td><td class="trn">' + esc(r.name) + '</td><td>' + r.tc + '</td><td>' + cell + '</td><td class="trl">' + (g ? g.l : '') + '</td>'
-        + (editTr ? '<td class="trbtn"><button class="step" data-act="trUp" data-m="' + r.id + '" aria-label="Lên">↑</button><button class="step" data-act="trDown" data-m="' + r.id + '" aria-label="Xuống">↓</button><button class="del" data-act="trDel" data-m="' + r.id + '"' + (trDelAsk === r.id ? ' style="color:#D7263D;width:auto;border-radius:99px;padding:0 8px;font-size:.75rem">Xoá?' : ' aria-label="Xoá học phần">×') + '</button></td>' : '')
+      h += '<tr' + (g && g.l === 'F' ? ' class="fail"' : '') + (editTr ? ' data-m="' + r.id + '" data-g="' + trGrp(r) + '"' : '') + '><td>' + (editTr ? '<span class="trDrag" title="Kéo để di chuyển" aria-label="Kéo để di chuyển">⠿</span>' : (i + 1)) + '</td><td class="trn">' + esc(r.name) + '</td><td>' + r.tc + '</td><td>' + cell + '</td><td class="trl">' + (g ? g.l : '') + '</td>'
+        + (editTr ? '<td class="trbtn"><button class="del" data-act="trDel" data-m="' + r.id + '"' + (trDelAsk === r.id ? ' style="color:#D7263D;width:auto;border-radius:99px;padding:0 8px;font-size:.75rem">Xoá?' : ' aria-label="Xoá học phần">×') + '</button></td>' : '')
         + '</tr>';
     });
     if(!list.length) h += '<tr><td colspan="5" class="muted">Chưa có học phần nào.</td></tr>';
@@ -1670,7 +1676,7 @@ html[data-night="1"] .trsum{background:#2E2619}
       + '<div class="trsum"><div><p>- ĐVHT đạt: <b>' + st.pass + '</b></p><p>- Điểm TB (thang ' + trScale + '): <b>' + (st.avg10 == null ? '—' : trScale === 10 ? f2(st.avg10) : f2(st.avg4)) + '</b></p><p>- Tín chỉ miễn/bảo lưu (P): <b>' + st.pTc + '</b></p></div>'
       + '<div><p>- Tổng số ĐVHT tích lũy/Số ĐK: <b>' + st.pass + '/' + st.reg + '</b></p><p>- Điểm TB chung: <b>' + (st.avg10 == null ? '—' : f2(st.avg10) + ' (thang 10) · ' + f2(st.avg4) + ' (thang 4)') + '</b></p><p>- Tiến độ CTĐT: <b>' + (st.pass + st.pTc) + '/' + (S.trTotal || 123) + ' TC</b></p></div></div>'
       + '<form class="add" id="addTr"><input type="text" id="trName" maxlength="100" placeholder="Tên học phần mới" aria-label="Tên học phần"><input type="number" id="trTc" min="0" max="20" value="3" inputmode="numeric" aria-label="Số tín chỉ"><button class="btn primary" type="submit">Thêm học phần</button></form>'
-      + '<p class="muted">Bấm Sửa / nhập điểm ở đầu bảng để nhập điểm thang 10 (ví dụ 8,5), di chuyển hoặc xoá học phần. Trang tự quy đổi sang điểm chữ và thang 4. Gõ P cho môn được miễn hoặc bảo lưu: tính vào tín chỉ tích lũy nhưng không tính điểm TB. Môn 0 tín chỉ không tính điểm TB.</p></section>';
+      + '<p class="muted">Bấm Sửa / nhập điểm ở đầu bảng để nhập điểm thang 10 (ví dụ 8,5), xoá học phần, hoặc giữ biểu tượng ⠿ rồi kéo thả để di chuyển (chỉ đổi chỗ trong cùng nhóm: môn P, môn có điểm, môn chưa có điểm). Trang tự quy đổi sang điểm chữ và thang 4. Gõ P cho môn được miễn hoặc bảo lưu: tính vào tín chỉ tích lũy nhưng không tính điểm TB. Môn 0 tín chỉ không tính điểm TB.</p></section>';
     return h;
   }
   function trMove(id, dir){
@@ -1680,6 +1686,43 @@ html[data-night="1"] .trsum{background:#2E2619}
     var i = a.indexOf(r), j = a.indexOf(nb); a[i] = nb; a[j] = r;
     save(); render();
   }
+
+
+  /* Kéo thả học phần trong bảng điểm (chuột và cảm ứng) */
+  (function(){
+    var drag = null;
+    function clearMarks(){ document.querySelectorAll('.trt tr.dropb,.trt tr.dropa').forEach(function(x){ x.classList.remove('dropb', 'dropa'); }); }
+    document.addEventListener('pointerdown', function(e){
+      var hd = e.target.closest && e.target.closest('.trDrag'); if(!hd) return;
+      var row = hd.closest('tr[data-m]'); if(!row) return;
+      e.preventDefault();
+      drag = {id: row.dataset.m, g: row.dataset.g, row: row, target: null, after: false, y: e.clientY};
+      row.classList.add('dragging'); document.body.classList.add('trdragging');
+    });
+    document.addEventListener('pointermove', function(e){
+      if(!drag) return;
+      e.preventDefault(); drag.y = e.clientY;
+      var el = document.elementFromPoint(e.clientX, e.clientY), tr = el && el.closest && el.closest('tr[data-m]');
+      clearMarks(); drag.target = null;
+      if(tr && tr !== drag.row && tr.dataset.g === drag.g){
+        var rc = tr.getBoundingClientRect(); drag.after = e.clientY > rc.top + rc.height/2;
+        tr.classList.add(drag.after ? 'dropa' : 'dropb'); drag.target = tr.dataset.m;
+      }
+      if(e.clientY < 60) window.scrollBy(0, -12); else if(e.clientY > innerHeight - 60) window.scrollBy(0, 12);
+    }, {passive: false});
+    function end(){
+      if(!drag) return;
+      var d = drag; drag = null; clearMarks(); d.row.classList.remove('dragging'); document.body.classList.remove('trdragging');
+      if(!d.target) return;
+      var a = S.transcript, r = a.filter(function(x){ return x.id === d.id; })[0]; if(!r) return;
+      a.splice(a.indexOf(r), 1);
+      var ti = a.findIndex(function(x){ return x.id === d.target; }); if(ti < 0){ a.push(r); return; }
+      a.splice(d.after ? ti + 1 : ti, 0, r);
+      save(); render();
+    }
+    document.addEventListener('pointerup', end);
+    document.addEventListener('pointercancel', end);
+  })();
 
   /* ---------- Lịch học ---------- */
   var WDAYS = [[1,'Thứ 2'],[2,'Thứ 3'],[3,'Thứ 4'],[4,'Thứ 5'],[5,'Thứ 6'],[6,'Thứ 7'],[0,'Chủ nhật']];
