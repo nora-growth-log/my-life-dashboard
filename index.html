@@ -42,7 +42,7 @@ body{
   background-size:22px 22px;
   color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%;
 }
-.wrap{max-width:1080px;margin:0 auto;padding:18px 16px 64px;display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+.wrap{flex:1;min-width:0;max-width:1360px;margin:0 auto;padding:18px 16px 64px;display:grid;gap:16px;grid-template-columns:minmax(0,1fr);align-content:start}
 @media (min-width:760px){
   .wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:26px 24px 72px;gap:18px}
   .span2{grid-column:1 / -1}
@@ -547,6 +547,52 @@ html[data-night="1"] .trt .trsep td{background:#22304A !important;color:#AFC6FF}
 html[data-night="1"] .trsum{background:#2E2619}
 .trsum b{color:#1F9AA8}
 @media (max-width:640px){.trsum{grid-template-columns:1fr}}
+
+/* Thanh bên */
+.shell{display:flex;align-items:flex-start;min-height:100vh}
+.side{--cd:var(--brand);flex:none;width:268px;position:sticky;top:14px;margin:14px 0 14px 14px;height:calc(100vh - 28px);background:var(--white);border:2px solid var(--line);border-radius:24px;padding:14px 12px;display:flex;flex-direction:column;gap:12px;box-shadow:0 4px 0 rgba(74,56,86,.06);overflow:hidden;transition:width .2s ease;z-index:30}
+.sbrand{display:flex;align-items:center;gap:8px;padding:2px 4px 8px;border-bottom:2px solid var(--line)}
+.slogo svg{width:42px;height:42px;display:block}
+.sname{font-family:var(--display);font-weight:800;font-size:1.25rem;line-height:1;color:var(--brand);flex:1;min-width:0;white-space:nowrap}
+.sname small{display:block;font-size:.66rem;letter-spacing:.22em;color:var(--muted);margin-top:3px}
+.stog{flex:none;width:30px;height:30px;border-radius:50%;border:2px solid var(--line);background:var(--white);color:var(--muted);font-weight:800;cursor:pointer;font-size:1rem;line-height:1}
+.slist{display:grid;grid-template-columns:minmax(0,1fr);gap:4px;overflow-y:auto;scrollbar-width:none;flex:1;align-content:start}
+.sitem{min-width:0;display:flex;align-items:center;gap:12px;padding:7px 8px;border-radius:16px;text-decoration:none;color:var(--ink);font-weight:700;border:2px solid transparent;white-space:nowrap}
+.sitem:hover{background:var(--bg)}
+.sitem.on{background:var(--bg);border-color:var(--line);box-shadow:0 3px 0 rgba(74,56,86,.08);font-weight:800}
+.sic{flex:none;width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:var(--ic);background:color-mix(in srgb,var(--ic) 16%,transparent)}
+.sitem.on .sic{background:var(--ic);color:#fff}
+.sic svg{width:20px;height:20px}
+.slbl{overflow:hidden;text-overflow:ellipsis}
+.sfoot{display:grid;gap:8px;border-top:2px solid var(--line);padding-top:10px}
+.suser{display:flex;align-items:center;gap:8px}
+.sav svg{width:38px;height:38px;display:block}
+.sun{flex:1;min-width:0;display:grid;line-height:1.2}.sun b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sun small{color:var(--muted);font-size:.72rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stimer{--cd:var(--lilac-d);background:var(--lilac);border-radius:16px;padding:8px;display:grid;justify-items:center;gap:4px}
+.stimer .clock{font-size:1.6rem}.stimer .mode{font-size:.7rem;padding:1px 8px}.stimer .mode:empty{display:none}.stimer .btn{padding:4px 12px;font-size:.8rem}
+.sstats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.sstats div{background:var(--bg);border-radius:12px;padding:6px;display:grid;text-align:center;min-width:0}
+.sstats b{font-family:var(--display);font-size:.9rem;color:var(--brand);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.15}
+.sstats .neg b{color:#D7263D}
+.sstats small{font-size:.62rem;color:var(--muted);font-weight:700;line-height:1.2}
+.shell.col .side{width:78px}
+.shell.col .sname,.shell.col .slbl,.shell.col .sun,.shell.col .sstats,.shell.col .stimer,.shell.col .slogo{display:none}
+.shell.col .sbrand{justify-content:center}.shell.col .sitem{justify-content:center;padding:7px 0}.shell.col .suser{justify-content:center}.shell.col .sav{display:none}
+.mtop,.sback{display:none}
+.slim{padding:12px 18px;gap:4px}.slim .txt{display:grid;gap:0}.slim h1{font-size:1.4rem}.slimr{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.slim .wallet.neg{color:#D7263D}
+@media (min-width:1280px){.wrap{padding:22px 28px 72px;gap:20px}}
+@media (max-width:900px){
+  .shell{display:block}
+  .mtop{display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:20;background:var(--tabbg);backdrop-filter:blur(6px);padding:8px 14px;border-bottom:2px solid var(--line)}
+  .mtop b{font-family:var(--display);color:var(--brand);font-size:1.15rem}
+  .mtop .navbtn{border:2px solid var(--line)}
+  .side{position:fixed;left:0;top:0;margin:0;height:100vh;border-radius:0 24px 24px 0;transform:translateX(-105%);transition:transform .25s ease;width:260px !important}
+  .shell.mopen .side{transform:none}
+  .shell.mopen .sback{display:block;position:fixed;inset:0;background:rgba(74,56,86,.35);z-index:25}
+  .stog{display:none}
+  .shell.col .sname,.shell.col .slbl,.shell.col .sun,.shell.col .sstats,.shell.col .stimer,.shell.col .slogo,.shell.col .sav{display:revert}
+  .shell.col .sitem{justify-content:flex-start;padding:7px 8px}
+}
 /* Sổ tiết kiệm */
 .lock{display:grid;gap:10px;justify-items:start}
 .lock svg{width:44px;height:44px}
@@ -859,6 +905,12 @@ html[data-night="1"] .trsum{background:#2E2619}
       + (function(){ var ts = todoStat(today()); return '<div class="stat mint"><b>' + (ts.n ? ts.d + '/' + ts.n : '—') + '</b><span>việc xong</span></div>'; })()
       + '</div>'
       + '<div class="head"><p class="status" id="status">' + esc(statusMsg) + '</p><button class="link" data-act="look" aria-expanded="' + lookOpen + '">' + (lookOpen ? 'Đóng' : 'Đổi giao diện') + '</button></div>';
+    if(tab !== 'hom-nay'){
+      var tn = TABS.filter(function(x){ return x[0] === tab; })[0], wb2 = wBal();
+      h = '<header class="card plain span2 slim"><div class="head"><div class="txt"><p class="date">' + DAYS[now.getDay()] + ', ' + pad(now.getDate()) + '/' + pad(now.getMonth()+1) + '/' + now.getFullYear() + '</p><h1>Chào ' + esc(nm()) + '!</h1></div>'
+        + '<div class="slimr"><span class="wallet' + (wb2 < 0 ? ' neg' : '') + '">' + COIN + money(wb2) + '</span><button class="link" data-act="look" aria-expanded="' + lookOpen + '">' + (lookOpen ? 'Đóng' : 'Đổi giao diện') + '</button></div></div>'
+        + '<p class="status" id="status">' + esc(statusMsg) + '</p>';
+    }
     if(lookOpen){
       h += '<div class="lookbox"><div class="chips"><span class="lbl">Bộ màu</span>';
       SKINS.forEach(function(x){ h += '<button class="chip' + (S.settings.skin === x[0] ? ' on' : '') + '" data-act="skin" data-v="' + x[0] + '"><i class="sw" style="background:' + x[2] + '"></i>' + x[1] + '</button>'; });
@@ -880,10 +932,31 @@ html[data-night="1"] .trsum{background:#2E2619}
         + '<textarea id="bkTxt" placeholder="Dán bản sao lưu vào đây để khôi phục"></textarea>'
         + '<div class="row left"><button class="btn small primary" data-act="bkLoad">Khôi phục (thay toàn bộ dữ liệu hiện tại)</button></div><p class="err" id="bkMsg"></p></div></div>';
     }
-    h += '</header>';
-    h += '<nav class="tabs span2" aria-label="Các mục">';
-    TABS.forEach(function(x){ h += '<a href="#' + x[0] + '" class="' + x[2] + (tab === x[0] ? ' on' : '') + '"' + (tab === x[0] ? ' aria-current="page"' : '') + '>' + x[1] + '</a>'; });
-    return h + '</nav>';
+    return h + '</header>';
+  }
+
+  /* ---------- Thanh bên ---------- */
+  var sideCol = !!lsGet('nangcap-side'), sideOpen = false;
+  var SIC = {
+    'hom-nay': ['#2A9A6E', '<path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z"/>'],
+    'habits': ['#E0A800', '<circle cx="7" cy="8" r="2.2"/><circle cx="12" cy="8" r="2.2"/><circle cx="17" cy="8" r="2.2"/><circle cx="7" cy="15" r="2.2"/><circle cx="12" cy="15" r="2.2" fill-opacity=".35"/><circle cx="17" cy="15" r="2.2"/>'],
+    'muc-tieu': ['#4B55C8', '<circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="1.6"/>'],
+    'lich': ['#7A58D6', '<rect x="4" y="6" width="16" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M4 10.5h16M8.5 3.5v4M15.5 3.5v4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>'],
+    'lich-hoc': ['#E0588C', '<path d="M3 9.5 12 5l9 4.5-9 4.5z"/><path d="M7 12v4c0 1.4 2.2 3 5 3s5-1.6 5-3v-4" fill="none" stroke="currentColor" stroke-width="2"/>'],
+    'bang-diem': ['#1F9AA8', '<rect x="5" y="3.5" width="14" height="17" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8.5 9h7M8.5 12.5h7M8.5 16h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'],
+    'bao-cao': ['#3B7DD6', '<rect x="5" y="12" width="3.4" height="7" rx="1"/><rect x="10.3" y="7" width="3.4" height="12" rx="1"/><rect x="15.6" y="4" width="3.4" height="15" rx="1"/>'],
+    'chi-tieu': ['#CC6830', '<rect x="3.5" y="6.5" width="17" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M3.5 10.5h17" stroke="currentColor" stroke-width="2.2"/><circle cx="16" cy="14.5" r="1.4"/>']
+  };
+  function vSide(){
+    var h = '<aside class="side" aria-label="Các mục"><div class="sbrand"><span class="slogo">' + catSvg('happy') + '</span><span class="sname">My Life<small>DASHBOARD</small></span>'
+      + '<button class="stog" data-act="sideTog" aria-label="' + (sideCol ? 'Mở rộng thanh bên' : 'Thu gọn thanh bên') + '" title="' + (sideCol ? 'Mở rộng' : 'Thu gọn') + '">' + (sideCol ? '»' : '«') + '</button></div><nav class="slist">';
+    TABS.forEach(function(x){ var ic = SIC[x[0]] || ['#888', ''], on = tab === x[0];
+      h += '<a href="#' + x[0] + '" class="sitem' + (on ? ' on' : '') + '"' + (on ? ' aria-current="page"' : '') + ' title="' + x[1] + '"><span class="sic" style="--ic:' + ic[0] + '"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' + ic[1] + '</svg></span><span class="slbl">' + x[1] + '</span></a>'; });
+    var ts = todoStat(today()), wb = wBal(), fm = (S.focus[today()] || {}).m || 0;
+    h += '</nav><div class="sfoot"><div class="suser"><span class="sav">' + catSvg('calm') + '</span><span class="sun"><b>' + esc(nm()) + '</b><small>' + (FB && fbUser ? esc(fbUser.email || '') : 'Chưa đăng nhập') + '</small></span><button class="gear" data-act="look" aria-label="Đổi giao diện" title="Đổi giao diện">' + GEAR + '</button></div>'
+      + '<div class="stimer"><span class="clock" id="sclock"></span><span class="mode" id="smode"></span><div class="row" id="sbtns"></div></div>'
+      + '<div class="sstats"><div class="' + (wb < 0 ? 'neg' : '') + '"><b>' + money(wb) + '</b><small>ví tập trung</small></div><div><b>' + hrs(fm) + ' giờ</b><small>tập trung hôm nay</small></div><div><b>' + (ts.n ? ts.d + '/' + ts.n : '—') + '</b><small>việc xong</small></div></div></div></aside>';
+    return h;
   }
 
   /* ---------- Hôm nay ---------- */
@@ -1956,7 +2029,7 @@ html[data-night="1"] .trsum{background:#2E2619}
     lastSig = '';
     var h = vHeader();
     h += tab === 'lich' ? vCal() : tab === 'chi-tieu' ? vMoney() + vVault() : tab === 'bao-cao' ? vReport() : tab === 'lich-hoc' ? vClasses() : tab === 'habits' ? vHabits() : tab === 'muc-tieu' ? vGoals() : tab === 'bang-diem' ? vTranscript() : vToday();
-    morphInto(app, '<div class="wrap">' + h + '</div>' + vFocus());
+    morphInto(app, '<div class="shell' + (sideCol ? ' col' : '') + (sideOpen ? ' mopen' : '') + '"><div class="mtop"><button class="navbtn" data-act="sideOpen" aria-label="Mở menu">☰</button><b>My Life Dashboard</b></div>' + vSide() + '<div class="sback" data-act="sideClose"></div><main class="wrap">' + h + '</main></div>' + vFocus());
     updateTimer();
     renderCat();
   }
@@ -2010,7 +2083,7 @@ html[data-night="1"] .trsum{background:#2E2619}
       : sig === 'over' ? '<button class="btn primary" data-act="tstop">Ngừng và giải lao</button>'
       : '<button class="btn" data-act="tskip">Bỏ qua giải lao</button>';
     var changed = sig !== lastSig; lastSig = sig;
-    ['t','f'].forEach(function(p){
+    ['t','f','s'].forEach(function(p){
       var c = $('#' + p + 'clock'); if(!c) return;
       c.textContent = clk;
       var mo = $('#' + p + 'mode'); if(mo){ mo.textContent = md; mo.className = cls; }
@@ -2074,7 +2147,7 @@ html[data-night="1"] .trsum{background:#2E2619}
 
   window.addEventListener('hashchange', function(){
     var h = location.hash.slice(1);
-    if(validTab(h) && h !== tab){ tab = h; lsSet(LTab, tab); render(); window.scrollTo(0,0); }
+    if(validTab(h) && h !== tab){ tab = h; sideOpen = false; lsSet(LTab, tab); render(); window.scrollTo(0,0); }
   });
 
   document.addEventListener('click', function(e){
@@ -2088,7 +2161,10 @@ html[data-night="1"] .trsum{background:#2E2619}
       b.classList.remove('hop'); void b.offsetWidth; b.classList.add('hop');
       fxBurst(rc, FX.heart, 6);
     }
-    else if(a === 'look'){ lookOpen = !lookOpen; render(); }
+    else if(a === 'look'){ lookOpen = !lookOpen; sideOpen = false; render(); if(lookOpen) window.scrollTo({top: 0, behavior: 'smooth'}); }
+    else if(a === 'sideTog'){ sideCol = !sideCol; lsSet('nangcap-side', sideCol || null); render(); }
+    else if(a === 'sideOpen'){ sideOpen = true; render(); }
+    else if(a === 'sideClose'){ sideOpen = false; render(); }
     else if(a === 'hbM'){ hbM = +b.dataset.v; render(); }
     else if(a === 'hbY'){ hbY += +b.dataset.v; render(); }
     else if(a === 'editHb'){ editHb = !editHb; render(); }
